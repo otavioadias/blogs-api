@@ -1,5 +1,7 @@
 const { Category } = require('../models');
 
+const getAllCategoriesServices = () => Category.findAll();
+
 const getCategoryByName = (name) => Category.findAll({
     where: { name },
 });
@@ -15,4 +17,4 @@ const createCategoryServices = async ({ name }) => {
     return ({ type: 201, message: newUser });
 };
 
-module.exports = { createCategoryServices, getCategoryByName };
+module.exports = { createCategoryServices, getCategoryByName, getAllCategoriesServices };
