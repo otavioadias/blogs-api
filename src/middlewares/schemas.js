@@ -19,4 +19,10 @@ const newUserSchema = Joi.object({
   }),
 });
 
-module.exports = { loginSchema, newUserSchema };
+const newCategorySchema = Joi.object({
+  name: Joi.string().required().messages({
+    'name-empty': '"name" is required',
+  }),
+});
+
+module.exports = { loginSchema, newUserSchema, newCategorySchema };
