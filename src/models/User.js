@@ -15,12 +15,12 @@ const usersSchema = (sequelize, DataTypes) => {
         timestamps: false,
     });
 
-    // usersTable.associate = (models) => {
-    //     usersTable.hasMany(models.BlogPosts, {
-    //         as: "blog_posts",
-    //         foreignKey: "user_id"
-    //     });
-    // };
+    usersTable.associate = (models) => {
+        usersTable.hasMany(models.BlogPost, {
+            as: "blog_posts",
+            foreignKey: "user_id"
+        });
+    };
 
     return usersTable;
 };
