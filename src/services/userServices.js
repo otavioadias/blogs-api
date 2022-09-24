@@ -5,6 +5,12 @@ const getUserByEmail = async (email) => User.findAll({
     where: { email },
 });
 
+const getAllUsersServices = async () => User.findAll({
+    attributes: {
+        exclude: ['password'],
+    },
+});
+
 const createNewUserServices = async ({ displayName, email, password, image }) => {
     const user = await getUserByEmail(email);
     if (user.length > 0) {
@@ -20,4 +26,4 @@ const createNewUserServices = async ({ displayName, email, password, image }) =>
     return ({ type: 201, message: { token } });
 };
 
-module.exports = { createNewUserServices };
+module.exports = { createNewUserServices, getAllUsersServices };
