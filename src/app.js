@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const loginRoute = require('./routes/loginRoute');
+const routes = require('./routes');
 // ...
 
 const app = express();
@@ -8,7 +8,8 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 
-app.use('/login', loginRoute);
+app.use('/login', routes.loginRoute);
+app.use('/user', routes.userRoute);
 
 // ...
 
