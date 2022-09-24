@@ -1,4 +1,6 @@
-const { createNewUserServices, getAllUsersServices } = require('../services/userServices');
+const { createNewUserServices, 
+    getAllUsersServices, 
+    getUserByIdServices } = require('../services/userServices');
 
 const createNewUserController = async (req, res) => {
     try {
@@ -20,4 +22,13 @@ const getAllUsersController = async (req, res) => {
     }
 };
 
-module.exports = { createNewUserController, getAllUsersController };
+const getUserByIdController = async (req, res) => {
+    const { id } = req.params;
+    const [user] = await getUserByIdServices(id);
+    if (!user) {
+        return res.status(404).json({ message: 'User does not exist' });
+    }
+    return res.status(200).json(user);
+};
+
+module.exports = { createNewUserController, getAllUsersController, getUserByIdController };
