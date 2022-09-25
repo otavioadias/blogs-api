@@ -29,13 +29,13 @@ const createPostServices = async ({ title, content, categoryIds }) => {
     const newPost = await BlogPost.create({
         title,
         content,
-        include: [
-            {
-                model: User,
-                as: 'userId',
-                attributes: { exclude: ['password'] },
-        },
-    ],
+    //     include: [
+    //         {
+    //             model: User,
+    //             as: 'userId',
+    //             attributes: { exclude: ['password'] },
+    //     },
+    // ],
     });
     return ({ type: 201, message: newPost });
 };
