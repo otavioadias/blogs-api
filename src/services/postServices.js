@@ -1,4 +1,5 @@
-const { BlogPost, User, Category } = require('../models');
+const { BlogPost, User, Category, PostCategory } = require('../models');
+const { userJWT } = require('../utils/JWT');
 const { getAllCategoriesServices } = require('./categoryServices');
 
 const getAllPostsService = async () => BlogPost.findAll({
@@ -36,25 +37,30 @@ const getPostByIdService = async (id) => BlogPost.findAll({
     ],
 });
 
-const createPostServices = async ({ title, content, categoryIds }) => {
+const categoryExists = async (cat) => {
     const categories = await getAllCategoriesServices();
     const arrayCategories = categories.map((i) => i.dataValues.id);
-    const categoryExist = categoryIds.some((id) => arrayCategories.includes(id));
-    if (categoryExist === false) {
-        return ({ type: 400, message: { message: '"categoryIds" not found"' } });
+    return cat.some((id) => arrayCategories.includes(id));
+};
+
+const createPostServices = async ({ title, content, categoryIds, token }) => {
+    const result = await categoryExists(categoryIds);
+    if (result === false) {
+        return ({ type: 400, message: { message: '"categoryIds" not found' } });
     }
-    // Requisito 11 falta verificar o userId e adicionar ele no corpo da resposta
+    const [user] = await userJWT(token);
+    const { dataValues } = user;
     const newPost = await BlogPost.create({
         title,
         content,
-    //     include: [
-    //         {
-    //             model: User,
-    //             as: 'userId',
-    //             attributes: { exclude: ['password'] },
-    //     },
-    // ],
+        userId: dataValues.id,
+        updated: new Date(),
+        published: new Date(),
     });
+    categoryIds.forEach(async (cat) =>
+        PostCategory.create({
+            postId: newPost.id, 
+            categoryId: cat }));
     return ({ type: 201, message: newPost });
 };
 

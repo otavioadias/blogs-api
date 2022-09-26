@@ -33,4 +33,7 @@ const createNewUserServices = async ({ displayName, email, password, image }) =>
     return ({ type: 201, message: { token } });
 };
 
-module.exports = { createNewUserServices, getAllUsersServices, getUserByIdServices };
+module.exports = { createNewUserServices, 
+    getAllUsersServices, 
+    getUserByIdServices,
+    getUserByEmail };

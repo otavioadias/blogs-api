@@ -19,7 +19,8 @@ const getPostByIdController = async (req, res) => {
 const createPostController = async (req, res) => {
     try {
         const { title, content, categoryIds } = req.body;
-        const newPost = await createPostServices({ title, content, categoryIds });
+        const token = req.headers.authorization;
+        const newPost = await createPostServices({ title, content, categoryIds, token });
         return res.status(newPost.type).json(newPost.message);
     } catch (error) {
         return res.status(401).json({ message: error.message });

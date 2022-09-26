@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { getUserByEmail } = require('../services/userServices');
 
 require('dotenv').config();
 
@@ -28,7 +29,15 @@ const authTokenValidation = async (token) => {
         }
 };
 
+const userJWT = async (token) => {
+    const decoded = await jwt.decode(token, JWT_SECRET);
+    const { email } = decoded;
+    const user = await getUserByEmail(email);
+    return user;
+};
+
 module.exports = {
     generateToken,
     authTokenValidation,
+    userJWT,
 };

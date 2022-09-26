@@ -5,6 +5,7 @@ const newUserValidation = async (req, res, next) => {
 
   const validation = schemas.newUserSchema.validate({ displayName, email, password });
   if (validation.error) {
+      console.log(validation.error.message);
       return res.status(400).json({ message: validation.error.message });
      }
   next();

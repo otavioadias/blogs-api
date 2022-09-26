@@ -5,7 +5,7 @@ const newPost = async (req, res, next) => {
 
   const validation = schemas.newPostSchema.validate({ title, content, categoryIds });
   if (validation.error) {
-      return res.status(400).json({ message: validation.error.message });
+      return res.status(400).json({ message: 'Some required fields are missing' });
      }
   next();
 };

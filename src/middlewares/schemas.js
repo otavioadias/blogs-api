@@ -21,16 +21,16 @@ const newUserSchema = Joi.object({
 
 const newCategorySchema = Joi.object({
   name: Joi.string().required().messages({
-    'name-empty': '"name" is required',
+    'string-empty': '"name" is required',
   }),
 });
 
 const newPostSchema = Joi.object({
   title: Joi.string().required().messages({
-    'name-empty': 'Some required fields are missing',
+    'string-empty': 'Some required fields are missing',
   }),
   content: Joi.string().required().messages({
-    'name-empty': 'Some required fields are missing',
+    'string-empty': 'Some required fields are missing',
   }),
   categoryIds: Joi.array().min(1).required().messages({
     'array-min': 'Some required fields are missing',

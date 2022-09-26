@@ -3,6 +3,7 @@ const blogPostsSchema = (sequelize, DataTypes) => {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            allowNull: false,
             autoIncrement: true
         },
         title: DataTypes.STRING,
@@ -18,8 +19,12 @@ const blogPostsSchema = (sequelize, DataTypes) => {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE',
           },
-        published: DataTypes.DATE,
-        updated: DataTypes.DATE,
+        published: {
+            type: DataTypes.DATE,
+        },
+        updated:  {
+            type: DataTypes.DATE,
+        },
     }, {
         tableName: 'blog_posts',
         underscored: true,
