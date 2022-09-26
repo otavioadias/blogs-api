@@ -21,7 +21,7 @@ const newUserSchema = Joi.object({
 
 const newCategorySchema = Joi.object({
   name: Joi.string().required().messages({
-    'string-empty': '"name" is required',
+    'name-empty': '"name" is required',
   }),
 });
 

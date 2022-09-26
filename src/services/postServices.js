@@ -1,5 +1,5 @@
 const { BlogPost, User, Category, PostCategory } = require('../models');
-const { userJWT } = require('../utils/JWT');
+const { userJWT } = require('../utils/decodeJWT');
 const { getAllCategoriesServices } = require('./categoryServices');
 
 const getAllPostsService = async () => BlogPost.findAll({
