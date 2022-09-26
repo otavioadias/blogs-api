@@ -18,6 +18,24 @@ const getAllPostsService = async () => BlogPost.findAll({
     ],
 });
 
+const getPostByIdService = async (id) => BlogPost.findAll({
+    where: { id },
+    attributes: {
+        exclude: ['user_id'],
+    },
+    include: [
+        {
+            model: User,
+            as: 'user',
+            attributes: { exclude: ['password'] },
+        },
+        {
+            model: Category,
+            as: 'categories',
+        },
+    ],
+});
+
 const createPostServices = async ({ title, content, categoryIds }) => {
     const categories = await getAllCategoriesServices();
     const arrayCategories = categories.map((i) => i.dataValues.id);
@@ -40,4 +58,6 @@ const createPostServices = async ({ title, content, categoryIds }) => {
     return ({ type: 201, message: newPost });
 };
 
-module.exports = { createPostServices, getAllPostsService };
+module.exports = { createPostServices,
+     getAllPostsService,
+     getPostByIdService };
