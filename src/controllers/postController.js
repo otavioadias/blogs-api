@@ -2,7 +2,8 @@ const { createPostServices,
      getAllPostsService,
      getPostByIdService, 
      updatePostServices,
-     deletePostServices } = require('../services/postServices');
+     deletePostServices,
+     getPostByTermService } = require('../services/postServices');
 
 const getAllPostsController = async (req, res) => {
     const posts = await getAllPostsService();
@@ -12,6 +13,7 @@ const getAllPostsController = async (req, res) => {
 const getPostByIdController = async (req, res) => {
     const { id } = req.params;
     const [post] = await getPostByIdService(id);
+    console.log('POSTTTTTTTTTTTTTTTT -', post);
     if (post) {
         return res.status(200).json(post);
     }
@@ -48,9 +50,18 @@ const deletePostController = async (req, res) => {
     return res.status(updatePost.type).json(updatePost.message);
 };
 
+const getPostByTermController = async (req, res) => {
+    const { q } = req.query;
+    const term = q;
+    const post = await getPostByTermService(term);
+    return res.status(post.type).json(post.message);
+};
+
 module.exports = { 
     createPostController,
      getAllPostsController,
      getPostByIdController,
      updatePostController,
-     deletePostController };
+     deletePostController,
+     getPostByTermController,
+      };

@@ -1,6 +1,10 @@
+const Sequelize = require('sequelize');
+
 const { BlogPost, User, Category, PostCategory } = require('../models');
 const { userJWT } = require('../utils/decodeJWT');
 const { getAllCategoriesServices } = require('./categoryServices');
+
+const { Op } = Sequelize;
 
 const getAllPostsService = async () => BlogPost.findAll({
     attributes: {
@@ -91,8 +95,26 @@ const deletePostServices = async ({ token, id }) => {
     return ({ type: 204, message: '' });
 };
 
+const getPostByTermService = async (term) => {
+    if (term === '') {
+        const allPosts = await getAllPostsService();
+        return ({ type: 200, message: allPosts });
+    }
+    const post = await BlogPost.findAll({
+        where: { 
+            [Op.or]: [{ title: { [Op.like]: `%${term}%` } }, 
+            { content: { [Op.like]: `%${term}%` } }] },
+    });
+    if (!post) {
+        return ({ type: 200, message: '' });
+    }
+    return ({ type: 200, message: post });
+};
+
 module.exports = { createPostServices,
      getAllPostsService,
      getPostByIdService,
      updatePostServices,
-     deletePostServices };
+     deletePostServices,
+     getPostByTermService,
+ };
