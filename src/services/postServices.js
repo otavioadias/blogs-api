@@ -104,6 +104,10 @@ const getPostByTermService = async (term) => {
         where: { 
             [Op.or]: [{ title: { [Op.like]: `%${term}%` } }, 
             { content: { [Op.like]: `%${term}%` } }] },
+            include: [
+                { model: User, as: 'user', attributes: { exclude: ['password'] } },
+                { model: Category, as: 'categories' },
+            ],
     });
     if (!post) {
         return ({ type: 200, message: '' });
