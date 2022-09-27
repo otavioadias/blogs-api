@@ -1,7 +1,8 @@
 const { createPostServices,
      getAllPostsService,
      getPostByIdService, 
-     updatePostServices } = require('../services/postServices');
+     updatePostServices,
+     deletePostServices } = require('../services/postServices');
 
 const getAllPostsController = async (req, res) => {
     const posts = await getAllPostsService();
@@ -40,8 +41,16 @@ const updatePostController = async (req, res) => {
     }
 };
 
+const deletePostController = async (req, res) => {
+    const token = req.headers.authorization;
+    const { id } = req.params;
+    const updatePost = await deletePostServices({ token, id });
+    return res.status(updatePost.type).json(updatePost.message);
+};
+
 module.exports = { 
     createPostController,
      getAllPostsController,
      getPostByIdController,
-     updatePostController };
+     updatePostController,
+     deletePostController };

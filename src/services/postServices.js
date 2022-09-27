@@ -67,7 +67,7 @@ const createPostServices = async ({ title, content, categoryIds, token }) => {
 const updatePostServices = async ({ title, content, token, id }) => {
     const [post] = await getPostByIdService(id);
     const [user] = await userJWT(token);
-    if (!post || !user || post.dataValues.id !== user.dataValues.id) {
+    if (!post || !user || post.dataValues.userId !== user.dataValues.id) {
         return ({ type: 401, message: { message: 'Unauthorized user' } });
     }
     await BlogPost.update(
@@ -78,7 +78,21 @@ const updatePostServices = async ({ title, content, token, id }) => {
         return ({ type: 200, message: updatedPost.dataValues });
 };
 
+const deletePostServices = async ({ token, id }) => {
+    const [post] = await getPostByIdService(id);
+    const [user] = await userJWT(token);
+    if (!post) {
+        return ({ type: 404, message: { message: 'Post does not exist' } });
+    }
+    if (!user || post.dataValues.userId !== user.dataValues.id) {
+        return ({ type: 401, message: { message: 'Unauthorized user' } });
+    }
+    await BlogPost.destroy({ where: { userId: post.dataValues.userId } });
+    return ({ type: 204, message: '' });
+};
+
 module.exports = { createPostServices,
      getAllPostsService,
      getPostByIdService,
-     updatePostServices };
+     updatePostServices,
+     deletePostServices };
