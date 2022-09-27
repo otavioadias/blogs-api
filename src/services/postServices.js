@@ -64,6 +64,21 @@ const createPostServices = async ({ title, content, categoryIds, token }) => {
     return ({ type: 201, message: newPost });
 };
 
+const updatePostServices = async ({ title, content, token, id }) => {
+    const [post] = await getPostByIdService(id);
+    const [user] = await userJWT(token);
+    if (!post || !user || post.dataValues.id !== user.dataValues.id) {
+        return ({ type: 401, message: { message: 'Unauthorized user' } });
+    }
+    await BlogPost.update(
+        { title, content, updated: new Date() },
+        { where: { id } },
+         );
+         const [updatedPost] = await getPostByIdService(id);
+        return ({ type: 200, message: updatedPost.dataValues });
+};
+
 module.exports = { createPostServices,
      getAllPostsService,
-     getPostByIdService };
+     getPostByIdService,
+     updatePostServices };

@@ -1,6 +1,7 @@
 const { createPostServices,
      getAllPostsService,
-     getPostByIdService } = require('../services/postServices');
+     getPostByIdService, 
+     updatePostServices } = require('../services/postServices');
 
 const getAllPostsController = async (req, res) => {
     const posts = await getAllPostsService();
@@ -27,7 +28,20 @@ const createPostController = async (req, res) => {
     }
 };
 
+const updatePostController = async (req, res) => {
+    try {
+        const { title, content } = req.body;
+        const { id } = req.params;
+        const token = req.headers.authorization;
+        const updatePost = await updatePostServices({ title, content, token, id });
+        return res.status(updatePost.type).json(updatePost.message);
+    } catch (error) {
+        return res.status(400).json({ message: error.message }); 
+    }
+};
+
 module.exports = { 
     createPostController,
      getAllPostsController,
-     getPostByIdController };
+     getPostByIdController,
+     updatePostController };
