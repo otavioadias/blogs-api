@@ -1,12 +1,12 @@
 const express = require('express');
-require('express-async-errors');
-const bodyParser = require('body-parser');
+// require('express-async-errors');
+// const bodyParser = require('body-parser');
 const routes = require('./routes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 // ...
 
 const app = express();
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 app.use(express.json());
 

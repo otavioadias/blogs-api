@@ -13,13 +13,8 @@ const createNewUserController = async (req, res) => {
 };
 
 const getAllUsersController = async (req, res) => {
-    try {
-        const users = await getAllUsersServices();
-        return res.status(200).json(users);
-    } catch (error) {
-        console.log('oi');
-        return res.status(401).json({ message: error.message });
-    }
+    const users = await getAllUsersServices();
+    return res.status(200).json(users);
 };
 
 const getUserByIdController = async (req, res) => {
